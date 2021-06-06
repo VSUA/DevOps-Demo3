@@ -1,6 +1,6 @@
 ---
 # tasks file for jenkins
-- name: Download foo.conf
+- name: Download jenkins repo
   get_url:
     url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
     dest: /etc/yum.repos.d/jenkins.repo
