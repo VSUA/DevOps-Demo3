@@ -1,14 +1,15 @@
 ---
 # tasks file for docker
-- name: Add Docker repo
-  get_url:
-    url: https://download.docker.com/linux/centos/docker-ce.repo
-    dest: /etc/yum.repos.d/docker-ce.repo
+- name: creating a docker repository
+  yum_repository:
+       description: repo for docker
+       name: docker-ce
+       baseurl: https://download.docker.com/linux/centos/8/x86_64/stable/
+       gpgcheck: no
 
 - name: Install docker
   yum:
-    name:
-      - docker-ce
+    name: docker-ce
     state: present
 
 - name: Start Docker service
