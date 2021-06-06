@@ -1,0 +1,13 @@
+---
+- name: Install jenkins
+  hosts: jenkins
+  remote_user: ec2-user
+  become: yes
+  roles:
+    - jenkins
+- name: Install docker
+  hosts: docker
+  remote_user: ec2-user
+  become: yes
+  roles:
+    - docker

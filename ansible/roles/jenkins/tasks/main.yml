@@ -1,0 +1,28 @@
+---
+# tasks file for jenkins
+- name: Download foo.conf
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+- name: Update the system
+  yum:
+    name: "*"
+    state: latest
+
+- name: Install Jenkins and Java
+  yum:
+    name:
+      - jenkins
+      - java-11-openjdk-devel
+    state: present
+
+- name: Enable and start Jenkins
+  ansible.builtin.systemd:
+    name: jenkins
+    state: started
+    enabled: yes
