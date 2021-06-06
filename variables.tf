@@ -15,8 +15,8 @@ variable "aws_secret_key" {
 
 variable "aws_instances_count" {
   description = "Number of instances to create"
-  type = string
-  default = "2"
+  type = number
+  default = 2
 }
 
 variable "aws_instance_type" {

@@ -11,8 +11,8 @@ variable "instance_type" {
 
 variable "instances_count" {
   description = "Number of instances to create"
-  type        = string
-  default     = "1"
+  type        = number
+  default     = 2
 }
 
 variable "key_name" {

@@ -20,3 +20,8 @@ module "ec2_instances" {
   ami = var.aws_ami
   key_name = var.aws_key_name
 }
+
+resource "local_file" "hosts" {
+  content     = "[jenkins] \n${module.ec2_instances.instances_public_ip.0} \n[docker] \n${module.ec2_instances.instances_public_ip.1}"
+  filename = "/etc/ansible/hosts"
+}
