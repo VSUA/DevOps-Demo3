@@ -24,5 +24,31 @@ module "ec2_instances" {
 resource "local_file" "hosts" {
   content     = "[jenkins] \n${module.ec2_instances.instances_public_ip.0} \n[docker] \n${module.ec2_instances.instances_public_ip.1}"
   filename = "/etc/ansible/hosts"
-  file_permission = "1400"
+  file_permission = "400"
+}
+
+resource "null_resource" "ansible" {
+  provisioner "remote-exec" {
+    connection {
+      host = module.ec2_instances.instances_public_ip.0
+      user = "ec2-user"
+      private_key = file("./${var.aws_key_name}.pem")
+    }
+    
+    inline = ["echo 'connected to first'"]
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      host = module.ec2_instances.instances_public_ip.1
+      user = "ec2-user"
+      private_key = file("./${var.aws_key_name}.pem")
+    }
+
+    inline = ["echo 'connected to second'"]
+  }
+  
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False sudo ansible-playbook ./ansible/main.yml --private-key ./${var.aws_key_name}.pem"
+  }
 }

@@ -7,9 +7,15 @@ resource "aws_key_pair" "generated_key" {
   key_name   = var.key_name
   public_key = tls_private_key.key.public_key_openssh
 
-  provisioner "local-exec" {
-    command = "echo '${tls_private_key.key.private_key_pem}' > ./${var.key_name}.pem"
-  }
+#  provisioner "local-exec" {
+#    command = "echo '${tls_private_key.key.private_key_pem}' > ./${var.key_name}.pem"
+#  }
+}
+
+resource "local_file" "private_key" {
+  content = "${tls_private_key.key.private_key_pem}"
+  filename = "./${var.key_name}.pem"
+  file_permission = "400"
 }
 
 resource "aws_instance" "app_server" {
