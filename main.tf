@@ -25,6 +25,7 @@ resource "local_file" "hosts" {
   content     = "[jenkins] \n${module.ec2_instances.instances_public_ip.0} \n[docker] \n${module.ec2_instances.instances_public_ip.1}"
   filename = "/etc/ansible/hosts"
   file_permission = "400"
+
 }
 
 resource "null_resource" "ansible" {
